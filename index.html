@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janik Schmitz' Startseite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f8ff;
+            color: #23395d;
+        }
+        header {
+            background-color: #2074d4;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 1rem;
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        th, td {
+            border: 1px solid #b3c6e6;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #2074d4;
+            color: white;
+        }
+        figure {
+            text-align: center;
+            margin: 1rem 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #b3c6e6;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .card h3 {
+            color: #2074d4;
+        }
+        @media (max-width: 600px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Willkommen auf Janik Schmitz' Startseite</h1>
+    </header>
+    <main>
+        <section>
+            <p>Hallo! Ich bin Janik Schmitz, ein ehrgeiziger Mensch, der die Welt der Geoinformatik & Vermessung erkundet und studiert. Diese Startseite zeigt meinen bisherigen Werdegang.</p>
+            <p>Stöbere gerne durch meine bisherigen Erfahrungen und erfahre mehr über mich!.</p>
+        </section>
+        <section>
+            <figure>
+                <img src="1920xauto.jpg" alt="Ein Bild von Janik Schmitz">
+                <figcaption>Janik Schmitz</figcaption>
+            </figure>
+        
+            <h2>Mein Werdegang</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Jahr</th>
+                        <th>Location</th>
+                        <th>Notizen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2010–2014</td>
+                        <td>Grundschule Dudeldorf</td>
+                        <td>Erste Erfahrungen mit Rechnen und Lesen</td>
+                    </tr>
+                    <tr>
+                        <td>2014–2023</td>
+                        <td>St. Willibrord Gymnasium Bitburg</td>
+                        <td>Weiterführende Schule + Abitur</td>
+                    </tr>
+                    <tr>
+                        <td>2023–2026</td>
+                        <td>Hochschule Mainz</td>
+                        <td>Studium Geoinformatik & Vermessung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Galerie</h2>
+            <div class="gallery">
+                <div class="card">
+                    <a href="https://github.com/janikschmitz" aria-label="GitHub Profil">
+                        <img src="https://picsum.photos/600/400?random=1" alt="GitHub Platzhalterbild">
+                        <h3>GitHub</h3>
+                        <p>Mein Code und Projekte auf GitHub.</p>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="#vermessung-bilder" aria-label="Portfolio Vermessung" onclick="document.getElementById('vermessung-modal').style.display='block';return false;">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 1">
+                        <h3>Portfolio</h3>
+                        <p>Bilder aus dem Vermessungsbereich ansehen</p>
+                    </a>
+                </div>
+                <div class="card">
+                    <h3>Interaktive Karte</h3>
+                    <div id="map" style="width:100%;height:300px;border-radius:5px;"></div>
+                </div>
+            </div>
+        </section>
+        <div id="vermessung-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);z-index:9999;overflow:auto;">
+            <div style="max-width:700px;margin:5vh auto;background:#fff;padding:2rem;border-radius:8px;position:relative;">
+                <button onclick="document.getElementById('vermessung-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
+                <h2>Bilder aus dem Vermessungsbereich</h2>
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 1" style="width:100%;margin-bottom:1rem;border-radius:5px;">
+                <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 2" style="width:100%;margin-bottom:1rem;border-radius:5px;">
+                <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 3" style="width:100%;border-radius:5px;">
+            </div>
+        </div>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if(document.getElementById('map')) {
+                var map = L.map('map').setView([50, 8], 6);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+                L.Control.geocoder({
+                    defaultMarkGeocode: true
+                }).addTo(map);
+            }
+        });
+        </script>
+    </main>
+</body>
+</html>
