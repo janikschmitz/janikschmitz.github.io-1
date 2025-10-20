@@ -5,72 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Janik Schmitz' Startseite</title>
     <style>
+        :root{
+            --bg: #f4f8ff;
+            --text: #23395d;
+            --accent: #2074d4;
+            --border: #b3c6e6;
+            --card-bg: #ffffff;
+            --muted: #6b788f;
+        }
+        .dark{
+            --bg: #0b0b0d;            /* dunkler Hintergrund */
+            --text: #e6eef8;          /* heller Text */
+            --accent: #3ea0ff;       /* Akzent in Dark */
+            --border: #1f2a37;       /* dunklere Ränder */
+            --card-bg: #050607;      /* Karten-Hintergrund schwarz */
+            --muted: #9fb4d6;
+        }
+        html,body {height:100%;}
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f8ff;
-            color: #23395d;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 240ms ease, color 240ms ease;
         }
         header {
-            background-color: #2074d4;
+            background-color: var(--accent);
             color: white;
             padding: 1rem;
             text-align: center;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:1rem;
         }
-        main {
-            padding: 1rem;
+        /* Dark mode Toggle */
+        #dark-toggle{
+            margin-left:auto;
+            margin-right:1rem;
+            background:transparent;
+            border:1px solid rgba(255,255,255,0.2);
+            color:inherit;
+            padding:0.35rem 0.6rem;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:0.95rem;
         }
-        section {
-            margin-bottom: 2rem;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 2rem;
-        }
-        th, td {
-            border: 1px solid #b3c6e6;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #2074d4;
-            color: white;
-        }
-        figure {
-            text-align: center;
-            margin: 1rem 0;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-        }
-        .card {
-            background-color: white;
-            border: 1px solid #b3c6e6;
-            border-radius: 5px;
-            padding: 1rem;
-            text-align: center;
-        }
-        .card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-        .card h3 {
-            color: #2074d4;
-        }
-        @media (max-width: 600px) {
-            .gallery {
-                grid-template-columns: 1fr;
-            }
-        }
+        #dark-toggle:focus{outline:2px solid rgba(255,255,255,0.25);}
+        main {padding: 1rem;}
+        section {margin-bottom: 2rem;}
+        table {width: 100%;border-collapse: collapse;margin-bottom: 2rem;background:transparent}
+        th, td {border: 1px solid var(--border);padding: 8px;text-align: left;background:transparent}
+        th {background-color: var(--accent);color: white}
+        figure {text-align: center;margin: 1rem 0}
+        img {max-width: 100%;height: auto;display:block}
+        .gallery {display: grid;grid-template-columns: repeat(3, 1fr);gap: 1rem}
+        .card {background-color: var(--card-bg);border: 1px solid var(--border);border-radius: 5px;padding: 1rem;text-align: center;color:var(--text);}
+        .card img {max-width: 100%;height: auto;border-radius: 5px}
+        .card h3 {color: var(--accent)}
+        @media (max-width: 600px) {.gallery {grid-template-columns: 1fr}}
+
+        /* Contact floating icons */
+        .contact-fab{position:fixed;right:1rem;bottom:1rem;display:flex;flex-direction:column;gap:0.6rem;z-index:10000}
+        .contact-fab a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:var(--card-bg);border:1px solid var(--border);color:var(--text);border-radius:50%;box-shadow:0 6px 18px rgba(0,0,0,0.08);text-decoration:none;transition:transform .18s ease,box-shadow .18s ease}
+        .contact-fab a:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,0.12)}
+        .contact-fab svg{width:20px;height:20px;fill:currentColor}
+        @media (max-width:600px){.tabs{justify-content:stretch}.tabs button{flex:1}}
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
@@ -80,19 +81,25 @@
 <body>
     <header>
         <h1>Willkommen auf Janik Schmitz' Startseite</h1>
+        <button id="dark-toggle" aria-pressed="false" aria-label="Dark Mode umschalten">Dark</button>
     </header>
     <main>
-        <section>
-            <p>Hallo! Ich bin Janik Schmitz, ein ehrgeiziger Mensch, der die Welt der Geoinformatik & Vermessung erkundet und studiert. Diese Startseite zeigt meinen bisherigen Werdegang.</p>
-            <p>Stöbere gerne durch meine bisherigen Erfahrungen und erfahre mehr über mich!.</p>
-        </section>
-        <section>
+        <nav class="tabs" role="tablist" aria-label="Seitenbereiche">
+            <button role="tab" aria-selected="true" data-tab="about" id="tab-about">About</button>
+            <button role="tab" aria-selected="false" data-tab="news" id="tab-news">News</button>
+            <button role="tab" aria-selected="false" data-tab="projects" id="tab-projects">Projects</button>
+        </nav>
+
+        <section id="about" class="tab-panel" role="tabpanel" aria-labelledby="tab-about">
+            <h2>About</h2>
             <figure>
                 <img src="1920xauto.jpg" alt="Ein Bild von Janik Schmitz">
                 <figcaption>Janik Schmitz</figcaption>
             </figure>
-        
-            <h2>Mein Werdegang</h2>
+            <p>Hallo! Ich bin Janik Schmitz, ein ehrgeiziger Mensch, der die Welt der Geoinformatik & Vermessung erkundet und studiert. Diese Startseite zeigt meinen bisherigen Werdegang.</p>
+            <p>Stöbere gerne durch meine bisherigen Erfahrungen und erfahre mehr über mich!.</p>
+
+            <h3>Mein Werdegang</h3>
             <table>
                 <thead>
                     <tr>
@@ -120,8 +127,17 @@
                 </tbody>
             </table>
         </section>
-        <section>
-            <h2>Galerie</h2>
+
+        <section id="news" class="tab-panel" role="tabpanel" hidden aria-labelledby="tab-news">
+            <h2>News</h2>
+            <div id="news-list" class="news-list" aria-live="polite">
+                <p>Lade Neuigkeiten…</p>
+            </div>
+        </section>
+
+        <section id="projects" class="tab-panel" role="tabpanel" hidden aria-labelledby="tab-projects">
+            <h2>Projects</h2>
+            <p>Eine Auswahl meiner Web-Maps und Webseiten:</p>
             <div class="gallery">
                 <div class="card">
                     <a href="https://github.com/janikschmitz" aria-label="GitHub Profil">
@@ -132,7 +148,7 @@
                 </div>
                 <div class="card">
                     <a href="#vermessung-bilder" aria-label="Portfolio Vermessung" onclick="document.getElementById('vermessung-modal').style.display='block';return false;">
-                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 1">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Vermessung Vorschau">
                         <h3>Portfolio</h3>
                         <p>Bilder aus dem Vermessungsbereich ansehen</p>
                     </a>
@@ -142,16 +158,19 @@
                     <div id="map" style="width:100%;height:300px;border-radius:5px;"></div>
                 </div>
             </div>
-        </section>
-        <div id="vermessung-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);z-index:9999;overflow:auto;">
-            <div style="max-width:700px;margin:5vh auto;background:#fff;padding:2rem;border-radius:8px;position:relative;">
-                <button onclick="document.getElementById('vermessung-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
-                <h2>Bilder aus dem Vermessungsbereich</h2>
-                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 1" style="width:100%;margin-bottom:1rem;border-radius:5px;">
-                <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 2" style="width:100%;margin-bottom:1rem;border-radius:5px;">
-                <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 3" style="width:100%;border-radius:5px;">
+
+            <!-- Modal für Vermessungsbilder -->
+            <div id="vermessung-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.8);z-index:9999;overflow:auto;">
+                <div style="max-width:700px;margin:5vh auto;background:#fff;padding:2rem;border-radius:8px;position:relative;">
+                    <button onclick="document.getElementById('vermessung-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
+                    <h2>Bilder aus dem Vermessungsbereich</h2>
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 1" style="width:100%;margin-bottom:1rem;border-radius:5px;">
+                    <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 2" style="width:100%;margin-bottom:1rem;border-radius:5px;">
+                    <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" alt="Vermessung Bild 3" style="width:100%;border-radius:5px;">
+                </div>
             </div>
-        </div>
+        </section>
+
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             if(document.getElementById('map')) {
@@ -166,6 +185,44 @@
             }
         });
         </script>
+
+        <script>
+            // Tabs: Klick & Keyboard-Unterstützung
+            (function(){
+                var tabs = document.querySelectorAll('[role="tab"]');
+                var panels = document.querySelectorAll('.tab-panel');
+                function activate(tab){
+                    tabs.forEach(function(t){t.setAttribute('aria-selected','false')});
+                    panels.forEach(function(p){p.hidden = true});
+                    tab.setAttribute('aria-selected','true');
+                    var id = tab.getAttribute('data-tab');
+                    document.getElementById(id).hidden = false;
+                }
+                tabs.forEach(function(tab){
+                    tab.addEventListener('click', function(){activate(tab)});
+                    tab.addEventListener('keydown', function(e){
+                        var idx = Array.prototype.indexOf.call(tabs, tab);
+                        if(e.key === 'ArrowRight') tabs[(idx+1)%tabs.length].focus();
+                        if(e.key === 'ArrowLeft') tabs[(idx-1+tabs.length)%tabs.length].focus();
+                        if(e.key === 'Enter' || e.key === ' ') activate(tab);
+                    });
+                });
+            })();
+        </script>
     </main>
+
+    <!-- Floating contact icons -->
+    <div class="contact-fab" aria-hidden="false">
+        <a href="https://mail.google.com" aria-label="E-Mail" title="E-Mail">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/></svg>
+        </a>
+        <a href="https://github.com/janikschmitz" aria-label="GitHub" title="GitHub" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.2.8-.5v-2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1 1.6-.7 1.9-1.1.2-.8.6-1.3 1-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.4 1.3-3.3-.1-.3-.6-1.6.1-3.3 0 0 1-.3 3.4 1.2.9-.2 1.9-.3 2.9-.3s2 .1 2.9.3c2.4-1.5 3.4-1.2 3.4-1.2.8 1.7.2 3 .1 3.3.8.9 1.3 2 1.3 3.3 0 4.5-2.7 5.5-5.3 5.8.6.5 1 1.3 1 2.6v3.9c0 .3.2.6.8.5C20.6 22.3 24 17.8 24 12.5 24 5.9 18.6.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/janikschmitz" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.024-3.037-1.852-3.037-1.853 0-2.136 1.446-2.136 2.942v5.664H9.351V9h3.414v1.561h.049c.476-.9 1.635-1.852 3.366-1.852 3.6 0 4.266 2.368 4.266 5.451v6.292zM5.337 7.433c-1.144 0-2.071-.928-2.071-2.071C3.266 4.218 4.193 3.29 5.337 3.29c1.144 0 2.071.928 2.071 2.071 0 1.143-.927 2.072-2.071 2.072zM6.812 20.452H3.861V9h2.951v11.452z"/></svg>
+        </a>
+    </div>
+
 </body>
 </html>

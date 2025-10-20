@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Webseite aktualisiert",
+    "date": "2025-10-20",
+    "summary": "Neue Galerie, interaktive Karte und Dark Mode hinzugefügt.",
+    "image": "https://picsum.photos/seed/news1/600/300",
+    "imageAlt": "Vorschau Webseite aktualisiert",
+    "link": "https://janikschmitz.github.io"
+  },
+  {
+    "title": "Studienbeginn an der Hochschule Mainz",
+    "date": "2025-09-01",
+    "summary": "Beginn des Studiums Geoinformatik & Vermessung.",
+    "image": "https://picsum.photos/seed/news2/600/300",
+    "imageAlt": "Hochschule Mainz",
+    "link": "https://www.hs-mainz.de"
+  },
+  {
+    "title": "Abitur bestanden",
+    "date": "2024-06-15",
+    "summary": "Erfolgreich das Abitur abgeschlossen.",
+    "image": "https://picsum.photos/seed/news3/600/300",
+    "imageAlt": "Abitur Zeugnis",
+    "link": ""
+  }
+]
