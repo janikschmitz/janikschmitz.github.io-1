@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Orte - Karte mit Punkten</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        .custom-popup {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            text-align: center;
+        }
+        .popup-title {
+            font-weight: bold;
+            color: #2074d4;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Karte initialisieren - Zentrum zwischen Metterich und Mainz
+        var map = L.map('map').setView([50.2, 6.8], 8);
+
+        // OpenStreetMap Tiles hinzufügen
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Marker für Metterich (Wohnort)
+        var metterichMarker = L.marker([49.9167, 6.4833]).addTo(map);
+        metterichMarker.bindPopup('<div class="custom-popup"><div class="popup-title">🏠 Wohnort</div>Metterich</div>');
+
+        // Marker für Hochschule Mainz (Lucy-Hillebrand-Straße)
+        var mainzMarker = L.marker([49.9929, 8.2473]).addTo(map);
+        mainzMarker.bindPopup('<div class="custom-popup"><div class="popup-title">🎓 Hier studiere ich</div>Hochschule Mainz<br>Lucy-Hillebrand-Straße</div>');
+
+        // Marker für München (Lieblingsstadt)
+        var muenchenMarker = L.marker([48.1351, 11.5820]).addTo(map);
+        muenchenMarker.bindPopup('<div class="custom-popup"><div class="popup-title">❤️ Lieblingsstadt + Lieblingsverein</div>München</div>');
+
+        // Marker für Mallorca (Lieblingsurlaubsort)
+        var mallorcaMarker = L.marker([39.6953, 2.9603]).addTo(map);
+        mallorcaMarker.bindPopup('<div class="custom-popup"><div class="popup-title">🏖️ Lieblingsurlaubsort</div>Mallorca</div>');
+
+        // Marker für Südafrika (Safaris)
+        var suedafrikaMarker = L.marker([-25.7461, 28.1881]).addTo(map);
+        suedafrikaMarker.bindPopup('<div class="custom-popup"><div class="popup-title">🦁 Geile Safaris</div>Südafrika</div>');
+
+        // Automatisch auf alle Marker zoomen
+        var group = new L.featureGroup([metterichMarker, mainzMarker, muenchenMarker, mallorcaMarker, suedafrikaMarker]);
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
+</body>
+</html>

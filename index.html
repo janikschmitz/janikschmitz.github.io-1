@@ -71,6 +71,11 @@
         .contact-fab a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:var(--card-bg);border:1px solid var(--border);color:var(--text);border-radius:50%;box-shadow:0 6px 18px rgba(0,0,0,0.08);text-decoration:none;transition:transform .18s ease,box-shadow .18s ease}
         .contact-fab a:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,0.12)}
         .contact-fab svg{width:20px;height:20px;fill:currentColor}
+        /* Tabs Styling */
+        .tabs{display:flex;gap:0.5rem;margin-bottom:2rem;border-bottom:1px solid var(--border)}
+        .tabs button{background:transparent;border:none;color:var(--text);padding:0.75rem 1.5rem;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s ease}
+        .tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+        .tabs button:hover{background:var(--card-bg)}
         @media (max-width:600px){.tabs{justify-content:stretch}.tabs button{flex:1}}
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -138,6 +143,63 @@
         <section id="projects" class="tab-panel" role="tabpanel" hidden aria-labelledby="tab-projects">
             <h2>Projects</h2>
             <p>Eine Auswahl meiner Web-Maps und Webseiten:</p>
+            
+            <!-- Karten aus assets Ordner -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>Meine Basiskarte</h3>
+                <iframe src="./assets/map_1_basiskarte.html" 
+                        width="100%" 
+                        height="400px" 
+                        style="border-radius:5px;border:none;" 
+                        title="Interaktive Basiskarte">
+                </iframe>
+                <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--muted);">Interaktive HTML-Karte aus meinen Projekten</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>Meine Orte</h3>
+                <iframe src="./assets/map_2_punkte.html" 
+                        width="100%" 
+                        height="400px" 
+                        style="border-radius:5px;border:none;" 
+                        title="Karte mit wichtigen Orten">
+                </iframe>
+                <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--muted);">Wohnort und Studienort auf einer Karte</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>Reiseroute zur Uni</h3>
+                <iframe src="./assets/map_3_reiseroute.html" 
+                        width="100%" 
+                        height="400px" 
+                        style="border-radius:5px;border:none;" 
+                        title="Reiseroute von Metterich nach Mainz">
+                </iframe>
+                <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--muted);">Mein Weg von zuhause zur Hochschule Mainz</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>Europäische Länder - Flächenkarte</h3>
+                <iframe src="./assets/map_4_flaechen_online.html" 
+                        width="100%" 
+                        height="400px" 
+                        style="border-radius:5px;border:none;" 
+                        title="Karte mit europäischen Ländern und Inseln">
+                </iframe>
+                <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--muted);">Interaktive Flächenkarte von Europa und Nordafrika</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>3D-Gebäudekarte (LoD2)</h3>
+                <iframe src="./assets/map_5_3d_gebaeude.html" 
+                        width="100%" 
+                        height="500px" 
+                        style="border-radius:5px;border:none;" 
+                        title="3D-Karte mit LoD2 Gebäuden">
+                </iframe>
+                <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--muted);">Interaktive 3D-Karte mit hochdetaillierten Gebäuden (Cesium.js)</p>
+            </div>
+            
             <div class="gallery">
                 <div class="card">
                     <a href="https://github.com/janikschmitz" aria-label="GitHub Profil">
@@ -206,6 +268,35 @@
                         if(e.key === 'ArrowLeft') tabs[(idx-1+tabs.length)%tabs.length].focus();
                         if(e.key === 'Enter' || e.key === ' ') activate(tab);
                     });
+                });
+            })();
+
+            // Dark Mode Toggle
+            (function(){
+                var toggleBtn = document.getElementById('dark-toggle');
+                var body = document.body;
+                
+                // Check for saved theme preference or default to 'light'
+                var currentTheme = localStorage.getItem('theme') || 'light';
+                
+                // Apply saved theme on page load
+                if (currentTheme === 'dark') {
+                    body.classList.add('dark');
+                    toggleBtn.setAttribute('aria-pressed', 'true');
+                    toggleBtn.textContent = 'Light';
+                }
+                
+                // Toggle theme on button click
+                toggleBtn.addEventListener('click', function(){
+                    body.classList.toggle('dark');
+                    var isDark = body.classList.contains('dark');
+                    
+                    // Update button state
+                    toggleBtn.setAttribute('aria-pressed', isDark);
+                    toggleBtn.textContent = isDark ? 'Light' : 'Dark';
+                    
+                    // Save preference to localStorage
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
                 });
             })();
         </script>
